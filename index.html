@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Counting Down Till You Are Back My Princess Wife 💖</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,600&family=Great+Vibes&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #fff7f9;
+      --accent: #f7b2c4;
+      --text: #3d2e33;
+      --shadow: 0 8px 24px rgba(247,178,196,0.3);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      font-family: 'Inter', sans-serif;
+      color: var(--text);
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    .main-layout {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 40px;
+      padding: 40px 20px;
+      text-align: center;
+      position: relative;
+      z-index: 2;
+    }
+
+    .side-img, .slideshow-container {
+      width: 320px;
+      border: 3px solid var(--accent);
+      border-radius: 20px;
+      background: #fff;
+      overflow: hidden;
+      position: relative;
+      box-shadow: 0 0 10px #f7b2c4, 0 0 20px #f7b2c4;
+      animation: glowPulse 2s ease-in-out infinite;
+    }
+
+    .side-img img, .mySlides img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 20px;
+      object-fit: cover;
+    }
+
+    .center-content {
+      max-width: 400px;
+      text-align: center;
+      position: relative;
+    }
+
+    h1 {
+      font-family: 'Great Vibes', cursive;
+      font-size: 50px;
+      color: #c1587a;
+      margin: 10px 0;
+      line-height: 1.1;
+    }
+
+    .subtitle {
+      font-family: 'Playfair Display', serif;
+      color: #7d5a64;
+      margin-bottom: 10px;
+    }
+
+    .countdown {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin: 20px 0;
+    }
+
+    .countdown div {
+      background: #fff;
+      border-radius: 12px;
+      padding: 12px 18px;
+      box-shadow: var(--shadow);
+      min-width: 90px;
+    }
+
+    .poem {
+      font-family: 'Playfair Display', serif;
+      font-size: 20px;
+      background: #fff;
+      border: 3px solid var(--accent);
+      border-radius: 20px;
+      box-shadow: 0 0 10px #f7b2c4, 0 0 20px #f7b2c4;
+      animation: glowPulse 2s ease-in-out infinite;
+      padding: 24px;
+      margin: 20px auto 20px;
+      line-height: 1.6;
+      opacity: 0;
+      transition: opacity 1.5s ease;
+    }
+
+    .poem.visible { opacity: 1; }
+
+    .time-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 15px;
+    }
+
+    .time-box {
+      background: #fff;
+      border: 3px solid var(--accent);
+      border-radius: 20px;
+      padding: 10px 25px;
+      font-family: 'Playfair Display', serif;
+      font-size: 18px;
+      color: #6a4251;
+      box-shadow: 0 0 10px #f7b2c4, 0 0 20px #f7b2c4;
+      animation: glowPulse 2s ease-in-out infinite;
+    }
+
+    @keyframes glowPulse {
+      0%, 100% { box-shadow: 0 0 10px #f7b2c4, 0 0 20px #f7b2c4; }
+      50% { box-shadow: 0 0 20px #ff6fa0, 0 0 30px #ff9ecb; }
+    }
+
+    .mySlides { display: none; }
+
+    .floating-heart {
+      position: fixed;
+      bottom: -20px;
+      color: rgba(255, 105, 180, 0.6);
+      animation: floatUp 8s linear infinite;
+      font-size: 18px;
+      pointer-events: none;
+      z-index: 1;
+      text-shadow: 0 0 12px rgba(255, 182, 193, 0.9);
+      filter: drop-shadow(0 0 8px rgba(255, 182, 193, 0.9));
+    }
+
+    @keyframes floatUp {
+      0% { transform: translateY(0) scale(1) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(-800px) scale(1.5) rotate(360deg); opacity: 0; }
+    }
+
+    @media (max-width: 768px) {
+      .main-layout {
+        flex-direction: column;
+        align-items: center;
+      }
+      .right-column {
+        width: 90%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="main-layout">
+    <div class="side-img">
+      <img id="heroImg" src="" alt="Us">
+    </div>
+
+    <div class="center-content">
+      <h1>Counting Down Till You Are Back My Princess Wife 💖</h1>
+      <p class="subtitle">I love you forever and always to infinity and beyond and beyond you are my amazing gorgeous beautifully Wife 💖</p>
+      <div id="countdown" class="countdown"></div>
+      <div id="poem" class="poem"></div>
+      <div class="time-container">
+        <div id="dubaiTime" class="time-box">Dubai Time: --:--</div>
+        <div id="ukTime" class="time-box">UK Time: --:--</div>
+      </div>
+    </div>
+
+    <div class="slideshow-container">
+      <div class="mySlides"><img src="1.png" alt="photo 1"></div>
+      <div class="mySlides"><img src="2.png" alt="photo 2"></div>
+      <div class="mySlides"><img src="3.png" alt="photo 3"></div>
+      <div class="mySlides"><img src="4.png" alt="photo 4"></div>
+      <div class="mySlides"><img src="5.png" alt="photo 5"></div>
+      <div class="mySlides"><img src="6.png" alt="photo 6"></div>
+      <div class="mySlides"><img src="7.png" alt="photo 7"></div>
+      <div class="mySlides"><img src="8.png" alt="photo 8"></div>
+      <div class="mySlides"><img src="9.png" alt="photo 9"></div>
+      <div class="mySlides"><img src="10.png" alt="photo 10"></div>
+      <div class="mySlides"><img src="11.png" alt="photo 11"></div>
+      <div class="mySlides"><img src="12.png" alt="photo 12"></div>
+      <div class="mySlides"><img src="13.png" alt="photo 13"></div>
+      <div class="mySlides"><img src="14.png" alt="photo 14"></div>
+    </div>
+  </div>
+
+  <script>
+    const countdownEl = document.getElementById('countdown');
+    const target = new Date(Date.UTC(new Date().getFullYear(), 9, 23, 17, 40, 0));
+    function updateCountdown(){
+      const now = new Date();
+      const diff = target - now;
+      if(diff <= 0){ countdownEl.textContent = 'You’re finally together 💕'; return; }
+      const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const m = Math.floor((diff / (1000 * 60)) % 60);
+      const s = Math.floor((diff / 1000) % 60);
+      countdownEl.innerHTML = `<div>${d}<br>Days</div><div>${h}<br>Hours</div><div>${m}<br>Minutes</div><div>${s}<br>Seconds</div>`;
+    }
+    updateCountdown();
+    setInterval(updateCountdown,1000);
+
+    function updateTimes() {
+      const now = new Date();
+      const ukTime = now.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', second: '2-digit', timeZone: 'Europe/London' });
+      const dubaiTime = now.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', second: '2-digit', timeZone: 'Asia/Dubai' });
+      document.getElementById('ukTime').textContent = `UK Time: ${ukTime}`;
+      document.getElementById('dubaiTime').textContent = `Dubai Time: ${dubaiTime}`;
+    }
+    updateTimes();
+    setInterval(updateTimes, 1000);
+
+    const poems = [
+      `I stopped counting days; I’m counting heartbeats until yours matches mine again.`,
+      `Every sunrise brings you closer to me. Every sunset reminds me how much I miss you.`,
+      `Even from miles away, you are the calm in my storm and the warmth in my heart.`,
+      `I can’t wait for the day your hand finds mine again.`,
+      `Every second without you is one closer to being in your arms.`,
+      `No distance can dull the glow you left inside me.`,
+      `I dream of your laugh, your touch, your warmth — and soon, I won’t have to dream.`,
+      `You are my home, no matter how far away you are.`,
+      `Every heartbeat whispers your name.`,
+      `Your love fills the spaces where silence once lived.`,
+      `Each moment apart reminds me how deeply I love you.`,
+      `I count the stars and imagine one for every kiss I owe you.`,
+      `Distance means nothing when someone means everything.`,
+      `I miss you in every heartbeat, but I love you in every breath.`,
+      `One day soon, I’ll hold you again — and time will stop just to let us breathe.`,
+      `The nights are long, but your love lights even the darkest hour.`,
+      `When I close my eyes, I see you smiling, and the world feels right again.`,
+      `If love could bend time, I’d already be beside you.`,
+      `Every message, every memory, is a little piece of you keeping me warm.`,
+      `I’m not waiting — I’m loving you from afar until I can love you up close.`,
+      `The distance is temporary, but my love for you is forever.`,
+      `You’re my favorite daydream and my sweetest reality waiting to happen.`,
+      `Miles apart, hearts aligned — counting down to our forever.`,
+      `No matter how far apart, we share the same moon, and that’s enough for now.`,
+      `Every day without you reminds me why I chose you — and why I always will.`,
+      `If I could bottle your laugh, I’d sip it every time I miss you.`,
+      `You are my favorite kind of forever.`,
+      `Love stretches across oceans and still finds its way home.`,
+      `Your name is the softest thought in my heart’s every whisper.`,
+      `When I think of you, distance disappears.`
+    ];
+
+    const poemEl = document.getElementById('poem');
+    let i = 0;
+    function showPoem(){
+      poemEl.classList.remove('visible');
+      setTimeout(() => {
+        poemEl.innerHTML = poems[i];
+        poemEl.classList.add('visible');
+      }, 500);
+      i = (i + 1) % poems.length;
+    }
+    showPoem();
+    setInterval(showPoem, 10000);
+
+    let slideIndex = 0;
+    function showSlides(){
+      const slides = document.getElementsByClassName('mySlides');
+      for(let i=0;i<slides.length;i++) slides[i].style.display = 'none';
+      slideIndex++;
+      if(slideIndex > slides.length){slideIndex=1}
+      slides[slideIndex-1].style.display = 'block';
+      setTimeout(showSlides, 6000);
+    }
+    showSlides();
+
+    function createFloatingHeart(){
+      const heart = document.createElement('div');
+      heart.classList.add('floating-heart');
+      heart.textContent = Math.random() > 0.5 ? '❤' : '💖';
+      heart.style.left = Math.random()*100 + 'vw';
+      heart.style.fontSize = (16 + Math.random()*24)+'px';
+      heart.style.animationDuration = (5 + Math.random()*5)+'s';
+      document.body.appendChild(heart);
+      setTimeout(()=>heart.remove(),10000);
+    }
+    setInterval(createFloatingHeart,200);
+
+    (function loadHero(){
+      const candidates = ['hero.png','hero.jpg','hero.jpeg','hero.webp','hero'];
+      const img = document.getElementById('heroImg');
+      let j = 0;
+      function tryNext(){
+        if(j >= candidates.length){ img.alt = 'Hero image not found'; return; }
+        const test = new Image();
+        const src = candidates[j++];
+        test.onload = function(){ img.src = src; };
+        test.onerror = tryNext;
+        test.src = src;
+      }
+      tryNext();
+    })();
+  </script>
+</body>
+</html>
