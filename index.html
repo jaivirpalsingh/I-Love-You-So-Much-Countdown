@@ -56,7 +56,7 @@
     }
 
     .center-content {
-      max-width: 400px;
+      max-width: 480px;
       text-align: center;
       position: relative;
     }
@@ -162,25 +162,85 @@
         width: 90%;
       }
     }
+
+    /* ✈️ Flight progress bar */
+    .flight-progress {
+      margin-top: 20px;
+      text-align: center;
+      position: relative;
+    }
+    .track {
+      position: relative;
+      width: 100%;
+      height: 12px;
+      background: linear-gradient(90deg, rgba(255,255,255,0.7), rgba(255,192,203,0.7));
+      border-radius: 10px;
+      overflow: hidden;
+      margin: 0 auto;
+      max-width: 420px;
+      box-shadow: 0 0 8px rgba(247,178,196,0.5);
+    }
+    .fill {
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 0%;
+      background: linear-gradient(90deg, #ff9bb3, #ff6f91);
+      border-radius: 10px;
+      transition: width 1s ease-out;
+    }
+    .plane {
+      position: absolute;
+      top: -25px;
+      font-size: 24px;
+      transition: left 1s ease-out;
+    }
+    .progress-label {
+      font-size: 14px;
+      color: #6b495e;
+      margin-top: 10px;
+    }
   </style>
 </head>
 <body>
   <div class="main-layout">
+    <!-- Left hero image -->
     <div class="side-img">
-      <img id="heroImg" src="" alt="Us">
+      <!-- We set the exact filename you confirmed -->
+      <img id="heroImg" src="hero.png" alt="Us">
     </div>
 
+    <!-- Center content -->
     <div class="center-content">
       <h1>Counting Down Till You Are Back My Princess Wife 💖</h1>
       <p class="subtitle">I love you forever and always to infinity and beyond and beyond you are my amazing gorgeous beautifully Wife 💖</p>
+
+      <!-- Countdown -->
       <div id="countdown" class="countdown"></div>
+
+      <!-- Poem box (rotating) -->
       <div id="poem" class="poem"></div>
+
+      <!-- Times -->
       <div class="time-container">
         <div id="dubaiTime" class="time-box">Dubai Time: --:--</div>
         <div id="ukTime" class="time-box">UK Time: --:--</div>
       </div>
+
+      <!-- ✈️ Flight Progress Bar -->
+      <div class="flight-progress">
+        <div class="track">
+          <div class="plane" id="plane">✈️</div>
+          <div class="fill" id="progress-fill"></div>
+        </div>
+        <div class="progress-label">
+          <span id="progress-text">0% complete</span>
+        </div>
+      </div>
     </div>
 
+    <!-- Right slideshow -->
     <div class="slideshow-container">
       <div class="mySlides"><img src="1.png" alt="photo 1"></div>
       <div class="mySlides"><img src="2.png" alt="photo 2"></div>
@@ -200,31 +260,35 @@
   </div>
 
   <script>
-    const countdownEl = document.getElementById('countdown');
-    const target = new Date(Date.UTC(new Date().getFullYear(), 9, 23, 17, 40, 0));
+    // --- Countdown to Oct 23, 2025 18:40 UK (17:40 UTC) ---
+    const target = new Date(Date.UTC(2025, 9, 23, 17, 40, 0));
     function updateCountdown(){
       const now = new Date();
       const diff = target - now;
-      if(diff <= 0){ countdownEl.textContent = 'You’re finally together 💕'; return; }
+      if(diff <= 0){
+        document.getElementById('countdown').textContent = "You’re finally together 💕";
+        return;
+      }
       const d = Math.floor(diff / (1000 * 60 * 60 * 24));
       const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
       const m = Math.floor((diff / (1000 * 60)) % 60);
       const s = Math.floor((diff / 1000) % 60);
-      countdownEl.innerHTML = `<div>${d}<br>Days</div><div>${h}<br>Hours</div><div>${m}<br>Minutes</div><div>${s}<br>Seconds</div>`;
+      document.getElementById('countdown').innerHTML =
+        `<div>${d}<br>Days</div><div>${h}<br>Hours</div><div>${m}<br>Minutes</div><div>${s}<br>Seconds</div>`;
     }
-    updateCountdown();
-    setInterval(updateCountdown,1000);
+    setInterval(updateCountdown,1000); updateCountdown();
 
+    // --- Local times ---
     function updateTimes() {
       const now = new Date();
-      const ukTime = now.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', second: '2-digit', timeZone: 'Europe/London' });
-      const dubaiTime = now.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', second: '2-digit', timeZone: 'Asia/Dubai' });
-      document.getElementById('ukTime').textContent = `UK Time: ${ukTime}`;
-      document.getElementById('dubaiTime').textContent = `Dubai Time: ${dubaiTime}`;
+      document.getElementById('ukTime').textContent =
+        'UK Time: ' + now.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit',second:'2-digit',timeZone:'Europe/London'});
+      document.getElementById('dubaiTime').textContent =
+        'Dubai Time: ' + now.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit',second:'2-digit',timeZone:'Asia/Dubai'});
     }
-    updateTimes();
-    setInterval(updateTimes, 1000);
+    setInterval(updateTimes,1000); updateTimes();
 
+    // --- Rotating poem lines (same list as your original) ---
     const poems = [
       `I stopped counting days; I’m counting heartbeats until yours matches mine again.`,
       `Every sunrise brings you closer to me. Every sunset reminds me how much I miss you.`,
@@ -257,57 +321,59 @@
       `Your name is the softest thought in my heart’s every whisper.`,
       `When I think of you, distance disappears.`
     ];
-
     const poemEl = document.getElementById('poem');
-    let i = 0;
+    let poemIndex = 0;
     function showPoem(){
       poemEl.classList.remove('visible');
       setTimeout(() => {
-        poemEl.innerHTML = poems[i];
+        poemEl.innerHTML = poems[poemIndex];
         poemEl.classList.add('visible');
-      }, 500);
-      i = (i + 1) % poems.length;
+      }, 400);
+      poemIndex = (poemIndex + 1) % poems.length;
     }
     showPoem();
     setInterval(showPoem, 10000);
 
+    // --- ✈️ Plane progress bar (Oct 5 start -> Oct 23 arrival) ---
+    const startDate = new Date('2025-10-05T00:00:00Z'); // Sneha left
+    const targetDate = new Date('2025-10-23T17:40:00Z'); // Sneha returns (UK 18:40)
+    function updateProgressBar() {
+      const progressFill = document.getElementById('progress-fill');
+      const plane = document.getElementById('plane');
+      const progressText = document.getElementById('progress-text');
+      const now = new Date();
+      const total = targetDate - startDate;
+      const elapsed = now - startDate;
+      let p = Math.min(Math.max(elapsed / total, 0), 1) * 100;
+      progressFill.style.width = p + '%';
+      plane.style.left = `calc(${p}% - 12px)`;
+      progressText.textContent = p.toFixed(1) + '% complete';
+    }
+    setInterval(updateProgressBar, 1000); updateProgressBar();
+
+    // --- Slideshow ---
     let slideIndex = 0;
     function showSlides(){
       const slides = document.getElementsByClassName('mySlides');
-      for(let i=0;i<slides.length;i++) slides[i].style.display = 'none';
-      slideIndex++;
-      if(slideIndex > slides.length){slideIndex=1}
-      slides[slideIndex-1].style.display = 'block';
-      setTimeout(showSlides, 6000);
+      for(let i=0;i<slides.length;i++) slides[i].style.display='none';
+      slideIndex++; if(slideIndex>slides.length){slideIndex=1}
+      slides[slideIndex-1].style.display='block';
+      setTimeout(showSlides,6000);
     }
     showSlides();
 
+    // --- Floating hearts ---
     function createFloatingHeart(){
-      const heart = document.createElement('div');
+      const heart=document.createElement('div');
       heart.classList.add('floating-heart');
-      heart.textContent = Math.random() > 0.5 ? '❤' : '💖';
-      heart.style.left = Math.random()*100 + 'vw';
-      heart.style.fontSize = (16 + Math.random()*24)+'px';
-      heart.style.animationDuration = (5 + Math.random()*5)+'s';
+      heart.textContent=Math.random()>0.5?'❤':'💖';
+      heart.style.left=Math.random()*100+'vw';
+      heart.style.fontSize=(16+Math.random()*24)+'px';
+      heart.style.animationDuration=(5+Math.random()*5)+'s';
       document.body.appendChild(heart);
       setTimeout(()=>heart.remove(),10000);
     }
     setInterval(createFloatingHeart,200);
-
-    (function loadHero(){
-      const candidates = ['hero.png','hero.jpg','hero.jpeg','hero.webp','hero'];
-      const img = document.getElementById('heroImg');
-      let j = 0;
-      function tryNext(){
-        if(j >= candidates.length){ img.alt = 'Hero image not found'; return; }
-        const test = new Image();
-        const src = candidates[j++];
-        test.onload = function(){ img.src = src; };
-        test.onerror = tryNext;
-        test.src = src;
-      }
-      tryNext();
-    })();
   </script>
 </body>
 </html>
