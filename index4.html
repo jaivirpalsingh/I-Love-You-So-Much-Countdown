@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>For Sneha 💖</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,600&family=Great+Vibes&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-day: #fff7f9;
+      --accent: #f7b2c4;
+      --text: #3d2e33;
+      --glow1: #f7b2c4;
+      --glow2: #ff9ecb;
+      --night-bg-1: #1a0f2b;
+      --night-bg-2: #2c1650;
+      --night-glow1: #8a68ff;
+      --night-glow2: #bf9bff;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg-day);
+      font-family: 'Inter', sans-serif;
+      color: var(--text);
+      overflow-x: hidden;
+      position: relative;
+      transition: background 5s ease; /* 5s smooth day<->night */
+    }
+
+    /* Starfield behind everything */
+    .starfield {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0;
+      transition: opacity 800ms ease;
+      background: radial-gradient(ellipse at top, rgba(255,255,255,0.02), transparent 60%);
+    }
+    body.night .starfield { opacity: 1; }
+    .star {
+      position: absolute;
+      width: 2px; height: 2px;
+      background: white; border-radius: 50%;
+      opacity: 0;
+      filter: drop-shadow(0 0 4px rgba(255,255,255,0.9));
+      animation: twinkle 4s infinite ease-in-out;
+    }
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.15; transform: scale(0.8); }
+      50% { opacity: 1; transform: scale(1.2); }
+    }
+
+    /* Shooting stars */
+    .shooting-star {
+      position: fixed;
+      width: 3px;
+      height: 100px;
+      background: linear-gradient(180deg, rgba(255,170,245,0.95), rgba(220,140,245,0.5), rgba(190,120,255,0.15), transparent);
+      border-radius: 50%;
+      opacity: 0;
+      transform: rotate(45deg);
+      filter: drop-shadow(0 0 10px rgba(230, 180, 255, 0.95));
+      pointer-events: none;
+      z-index: 2;
+      animation: shoot 2.4s linear forwards, shimmer 1.2s ease-in-out infinite;
+    }
+    .shooting-star.small {
+      width: 2px;
+      height: 70px;
+      animation: shoot 1.6s linear forwards, shimmer 0.9s ease-in-out infinite;
+      filter: drop-shadow(0 0 6px rgba(240, 210, 255, 0.9));
+    }
+    @keyframes shoot {
+      0% { opacity: 0; transform: translate(0,0) scale(1) rotate(var(--angle,45deg)); }
+      10% { opacity: 1; }
+      100% { transform: translate(var(--dx, 380px), var(--dy, 380px)) scale(0.8) rotate(var(--angle,45deg)); opacity: 0; }
+    }
+    @keyframes shimmer {
+      0%, 100% { filter: drop-shadow(0 0 6px rgba(240, 200, 255, 0.7)); }
+      50% { filter: drop-shadow(0 0 14px rgba(255, 190, 255, 1)); }
+    }
+
+    .main-layout {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 40px;
+      padding: 40px 20px;
+      text-align: center;
+      position: relative;
+      z-index: 2;
+    }
+
+    .side-img, .slideshow-container {
+      width: 320px;
+      border: 3px solid var(--accent);
+      border-radius: 20px;
+      background: #fff;
+      overflow: hidden;
+      position: relative;
+      box-shadow: 0 0 10px var(--glow1), 0 0 20px var(--glow1);
+      animation: glowPulse 2s ease-in-out infinite;
+      transition: box-shadow 800ms ease, border-color 800ms ease, background 800ms ease;
+    }
+    /* Constant hero glow at night */
+    body.night .side-img {
+      background: rgba(25, 15, 45, 0.6);
+      border-color: var(--night-glow1);
+      box-shadow: 0 0 22px rgba(206, 160, 255, 0.9), 0 0 44px rgba(255, 180, 240, 0.6);
+    }
+    body.night .slideshow-container {
+      background: rgba(25, 15, 45, 0.6);
+      border-color: var(--night-glow1);
+      box-shadow: 0 0 14px var(--night-glow1), 0 0 28px var(--night-glow2);
+    }
+
+    .side-img img, .mySlides img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 20px;
+      object-fit: cover;
+    }
+
+    .center-content {
+      max-width: 480px;
+      text-align: center;
+      position: relative;
+      transition: color 800ms ease;
+    }
+
+    h1 {
+      font-family: 'Great Vibes', cursive;
+      font-size: 50px;
+      color: #c1587a;
+      margin: 10px 0;
+      line-height: 1.1;
+      transition: color 800ms ease;
+    }
+    body.night h1 { color: #e6d3ff; }
+
+    .subtitle {
+      font-family: 'Playfair Display', serif;
+      color: #7d5a64;
+      margin-bottom: 10px;
+      transition: color 800ms ease;
+    }
+    body.night .subtitle { color: #d8c9ff; }
+
+    .countdown {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin: 20px 0;
+    }
+    .countdown div {
+      background: #fff;
+      border-radius: 12px;
+      padding: 12px 18px;
+      box-shadow: 0 0 10px var(--glow1), 0 0 20px var(--glow2);
+      min-width: 90px;
+      transition: background 800ms ease, box-shadow 800ms ease, color 800ms ease;
+    }
+    body.night .countdown div {
+      background: rgba(35, 22, 66, 0.7);
+      box-shadow: 0 0 12px var(--night-glow1), 0 0 22px var(--night-glow2);
+      color: #efeaff;
+    }
+
+    .poem {
+      font-family: 'Playfair Display', serif;
+      font-size: 20px;
+      background: #fff;
+      border: 3px solid var(--accent);
+      border-radius: 20px;
+      box-shadow: 0 0 10px var(--glow1), 0 0 20px var(--glow2);
+      animation: glowPulse 2s ease-in-out infinite;
+      padding: 24px;
+      margin: 20px auto 20px;
+      line-height: 1.6;
+      opacity: 0;
+      transition: opacity 1.5s ease, background 800ms ease, box-shadow 800ms ease, border-color 800ms ease, color 800ms ease;
+    }
+    .poem.visible { opacity: 1; }
+    body.night .poem {
+      background: rgba(35, 22, 66, 0.7);
+      border-color: var(--night-glow1);
+      color: #efeaff;
+      box-shadow: 0 0 14px var(--night-glow1), 0 0 28px var(--night-glow2);
+    }
+
+    .time-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 15px;
+    }
+    .time-box {
+      background: #fff;
+      border: 3px solid var(--accent);
+      border-radius: 20px;
+      padding: 10px 25px;
+      font-family: 'Playfair Display', serif;
+      font-size: 18px;
+      color: #6a4251;
+      box-shadow: 0 0 10px var(--glow1), 0 0 20px var(--glow2);
+      animation: glowPulse 2s ease-in-out infinite;
+      transition: background 800ms ease, box-shadow 800ms ease, border-color 800ms ease, color 800ms ease;
+    }
+    body.night .time-box {
+      background: rgba(35, 22, 66, 0.7);
+      border-color: var(--night-glow1);
+      color: #efeaff;
+      box-shadow: 0 0 14px var(--night-glow1), 0 0 28px var(--night-glow2);
+    }
+
+    @keyframes glowPulse {
+      0%, 100% { box-shadow: 0 0 10px var(--glow1), 0 0 20px var(--glow2); }
+      50% { box-shadow: 0 0 20px var(--glow2), 0 0 30px var(--glow1); }
+    }
+
+    .floating-heart {
+      position: fixed;
+      bottom: -20px;
+      color: rgba(255, 105, 180, 0.75);
+      animation: floatUp 8s linear infinite;
+      font-size: 18px;
+      pointer-events: none;
+      z-index: 1;
+      text-shadow: 0 0 12px rgba(255, 182, 193, 0.9);
+      filter: drop-shadow(0 0 8px rgba(255, 182, 193, 0.9));
+      transition: opacity 800ms ease;
+    }
+    body.night .floating-heart {
+      color: rgba(255, 160, 220, 0.85);
+      filter: drop-shadow(0 0 10px rgba(210, 180, 255, 0.9));
+    }
+
+    @keyframes floatUp {
+      0% { transform: translateY(0) scale(1) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(-800px) scale(1.5) rotate(360deg); opacity: 0; }
+    }
+
+    @media (max-width: 768px) {
+      .main-layout {
+        flex-direction: column;
+        align-items: center;
+      }
+      .right-column {
+        width: 90%;
+      }
+    }
+
+    /* ✈️ Flight progress bar */
+    .flight-progress { margin-top: 20px; text-align: center; position: relative; }
+    .track {
+      position: relative; width: 100%; height: 12px;
+      background: linear-gradient(90deg, rgba(255,255,255,0.7), rgba(255,192,203,0.7));
+      border-radius: 10px; overflow: hidden; margin: 0 auto; max-width: 420px;
+      box-shadow: 0 0 8px var(--glow1); transition: box-shadow 800ms ease, background 800ms ease;
+      /* shimmer overlay */
+    }
+    .track::after{
+      content:""; position:absolute; inset:0; pointer-events:none;
+      background: linear-gradient(120deg, rgba(255,255,255,0), rgba(255,255,255,0.6), rgba(255,255,255,0));
+      transform: translateX(-100%);
+      opacity: 0;
+    }
+    .track.shimmering::after{
+      opacity: 1;
+      animation: sweep 1s ease-in-out infinite;
+    }
+    @keyframes sweep{
+      from{ transform: translateX(-100%); }
+      to{ transform: translateX(100%); }
+    }
+    body.night .track {
+      background: linear-gradient(90deg, rgba(45,30,80,0.6), rgba(120,90,200,0.4));
+      box-shadow: 0 0 12px var(--night-glow1);
+    }
+    .fill {
+      position: absolute; left: 0; top: 0; bottom: 0; width: 0%;
+      background: linear-gradient(90deg, #ff9bb3, #ff6f91);
+      border-radius: 10px; transition: width 1s ease-out, background 800ms ease;
+    }
+    body.night .fill { background: linear-gradient(90deg, #ae8bff, #d1b7ff); }
+    .plane { position: absolute; top: -25px; font-size: 24px; transition: left 1s ease-out; }
+    .progress-label { font-size: 14px; color: #6b495e; margin-top: 10px; transition: color 800ms ease; }
+    body.night .progress-label { color: #e7ddff; }
+
+    /* Sparkle burst near plane */
+    .sparkle-burst{
+      position: absolute;
+      width: 8px; height: 8px;
+      background: radial-gradient(circle, rgba(255,230,255,1) 0%, rgba(255,200,255,0.7) 40%, rgba(255,200,255,0) 70%);
+      border-radius: 50%;
+      pointer-events:none;
+      animation: burst 600ms ease-out forwards;
+      filter: drop-shadow(0 0 10px rgba(230,180,255,0.9));
+    }
+    @keyframes burst{
+      from{ transform: scale(0.4); opacity: 1; }
+      to{ transform: scale(3.2); opacity: 0; }
+    }
+  
+    /* 💌 Love letter button + modal */
+    .love-letter-wrap { display:flex; justify-content:center; margin:16px 0 6px; }
+    .love-button{
+      font-family:'Playfair Display', serif;
+      font-size:18px;
+      padding:10px 18px;
+      border-radius:14px;
+      border:2px solid var(--accent);
+      background: #fff;
+      cursor:pointer;
+      box-shadow: 0 0 10px var(--glow1), 0 0 20px var(--glow2);
+      color:#6a4251;
+      animation: lovePulse 3s ease-in-out infinite;
+      transition: transform .2s ease, box-shadow .3s ease, background .3s ease;
+    }
+    .love-button:hover{ transform: translateY(-1px); box-shadow: 0 0 16px var(--glow2), 0 0 28px var(--glow1); }
+    @keyframes lovePulse{
+      0%,100%{ box-shadow: 0 0 10px var(--glow1), 0 0 20px var(--glow2); }
+      50%{ box-shadow: 0 0 20px var(--glow2), 0 0 36px var(--glow1); }
+    }
+    body.night .love-button{
+      background: rgba(35,22,66,0.7);
+      color:#efeaff;
+      border-color: var(--night-glow1);
+      box-shadow: 0 0 14px var(--night-glow1), 0 0 28px var(--night-glow2);
+    }
+
+    .letter-overlay{
+      position: fixed; inset:0; z-index: 10;
+      display: none;
+      align-items: center; justify-content: center;
+      background: radial-gradient(1200px 800px at 50% 40%, rgba(255,170,220,0.25), rgba(170,130,255,0.22), rgba(0,0,0,0.35));
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      transition: opacity .4s ease;
+      opacity: 0;
+    }
+    .letter-overlay.open{ display:flex; opacity: 1; }
+
+    .letter-modal{
+      max-width: 720px; width: min(92%, 720px);
+      background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(255,245,252,0.96));
+      border: 3px solid var(--accent);
+      border-radius: 20px;
+      box-shadow: 0 12px 40px rgba(107,73,94,0.25), 0 0 24px rgba(247,178,196,0.6);
+      padding: 24px 22px;
+      transform: translateY(10px);
+      animation: modalIn .45s ease forwards;
+    }
+    body.night .letter-modal{
+      background: linear-gradient(180deg, rgba(35,22,66,0.92), rgba(45,26,78,0.92));
+      border-color: var(--night-glow1);
+      color:#efeaff;
+      box-shadow: 0 0 16px var(--night-glow1), 0 0 32px var(--night-glow2);
+    }
+    @keyframes modalIn{
+      to{ transform:none; }
+    }
+
+    .love-title{
+      font-family:'Great Vibes', cursive;
+      font-size:42px;
+      margin: 6px 0 4px;
+      color:#c1587a;
+      text-align:center;
+    }
+    body.night .love-title{ color:#e6d3ff; }
+
+    .love-body{
+      font-family:'Great Vibes', cursive;
+      font-size:26px;
+      line-height:1.6;
+      color:#6a4251;
+      text-align:center;
+      margin-top: 8px;
+    }
+    body.night .love-body{ color:#efeaff; }
+
+    .love-body .line{ margin: 6px 0; }
+
+    .love-close{
+      display:block;
+      margin: 16px auto 6px;
+      padding:8px 16px;
+      border-radius:12px;
+      border:1px solid rgba(107,73,94,0.2);
+      background: #fff;
+      font-weight:600;
+      cursor:pointer;
+      box-shadow: 0 0 10px var(--glow1);
+    }
+    body.night .love-close{
+      background: rgba(35,22,66,0.7);
+      color:#efeaff;
+      border-color: var(--night-glow1);
+      box-shadow: 0 0 12px var(--night-glow1);
+    }
+
+/* --- Night fix: pink-trail shooting stars --- */
+.shooting-star-pinkfix {
+  position: fixed;
+  width: 3px;
+  height: 100px;
+  background: linear-gradient(180deg,
+    rgba(255,255,255,0.95),
+    rgba(255,170,225,0.7),
+    rgba(255,150,215,0.25),
+    transparent
+  );
+  border-radius: 50%;
+  opacity: 0;
+  transform: rotate(45deg);
+  filter: drop-shadow(0 0 12px rgba(255,180,230,0.95));
+  pointer-events: none;
+  z-index: 9999;
+  animation: pinkfix-shoot 2.2s linear forwards, pinkfix-shimmer 1.2s ease-in-out infinite;
+}
+.shooting-star-pinkfix.small {
+  width: 2px;
+  height: 70px;
+  animation: pinkfix-shoot 1.6s linear forwards, pinkfix-shimmer 0.9s ease-in-out infinite;
+  filter: drop-shadow(0 0 8px rgba(255,210,240,0.9));
+}
+@keyframes pinkfix-shoot {
+  0% { opacity: 0; transform: translate(0,0) scale(1) rotate(var(--angle,45deg)); }
+  12% { opacity: 1; }
+  100% { transform: translate(var(--dx, 420px), var(--dy, 420px)) scale(0.85) rotate(var(--angle,45deg)); opacity: 0; }
+}
+@keyframes pinkfix-shimmer {
+  0%,100% { filter: drop-shadow(0 0 6px rgba(255, 190, 240, 0.8)); }
+  50% { filter: drop-shadow(0 0 16px rgba(255, 210, 250, 1)); }
+}
+</style>
+</head>
+<body>
+  <div class="starfield" id="starfield" aria-hidden="true"></div>
+
+  <div class="main-layout">
+    <!-- Left hero image -->
+    <div class="side-img">
+      <img id="heroImg" src="hero.png" alt="Us">
+    </div>
+
+    <!-- Center content -->
+    <div class="center-content">
+      <h1>Counting Down Till You Are Back My Princess Wife 💖</h1>
+      <p class="subtitle">I love you forever and always to infinity and beyond and beyond you are my amazing gorgeous beautifully Wife 💖</p>
+
+      <!-- Countdown -->
+      <div id="countdown" class="countdown"></div>
+
+      <!-- Poem box (rotating) -->
+      <div id="poem" class="poem"></div>
+
+      <!-- Times -->
+      <div class="time-container">
+        <div id="dubaiTime" class="time-box">Dubai Time: --:--</div>
+        <div id="ukTime" class="time-box">UK Time: --:--</div>
+      </div>
+
+      <!-- ✈️ Flight Progress Bar -->
+      <div class="flight-progress">
+        <div class="track" id="track">
+          <div class="plane" id="plane">✈️</div>
+          <div class="fill" id="progress-fill"></div>
+        </div>
+        <div class="progress-label">
+          <span id="progress-text">0% complete</span>
+        </div>
+      </div>
+
+      <!-- 💞 Days together counter -->
+      
+<div class="progress-label" id="daysTogether" style="margin-top:10px;">We’ve shared — beautiful days together 💖</div>
+      <!-- 💌 Hidden Love Letter -->
+      <div class="love-letter-wrap">
+        <button id="loveBtn" class="love-button" aria-haspopup="dialog" aria-controls="loveLetterModal">💌 For You</button>
+      </div>
+
+      <!-- Overlay + Modal -->
+      <div id="loveOverlay" class="letter-overlay" aria-hidden="true">
+        <div id="loveLetterModal" class="letter-modal" role="dialog" aria-modal="true" aria-labelledby="loveTitle">
+          <h2 id="loveTitle" class="love-title">For My Beautiful Wife</h2>
+          <div class="love-body">
+            <p class="line">Without you I am nothing, without you I am just a lonely person on this planet.</p>
+            <p class="line">You are the missing piece to my heart that I have been waiting for, you was the gift that god gave to me.</p>
+            <p class="line">My eyes my soul my heart is in your hands and I trust you 2000%.</p>
+            <p class="line">I love you more and more as the days go on and on.</p>
+            <p class="line">Know this I am never going anywhere you are never too much I want your pain I want your overthinking I want to make you happy and be loved like the movies and I promise you I will give you all of that and more.</p>
+            <p class="line">You are my wife we are a team we do everything together, I cannot imagine my life without you and how incomplete it would be.</p>
+            <p class="line">I will always fight for you for us for our future.</p>
+            <p class="line">You are never ever alone never by yourself you always have me through every storm through every version you have me no matter what i promise you that.</p>
+            <p class="line">You are the love of my life official or not official we are married we are Husband and Wife you are my life my safe house my everything I love you forever and always to infinity and beyond and beyond my beautiful darling princess gorgeous stunning Wife ❤️❤️❤️❤️</p>
+          </div>
+          <button id="closeLove" class="love-close" aria-label="Close love letter">Close 💫</button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Right slideshow -->
+    <div class="slideshow-container">
+      <div class="mySlides"><img src="1.png" alt="photo 1"></div>
+      <div class="mySlides"><img src="2.png" alt="photo 2"></div>
+      <div class="mySlides"><img src="3.png" alt="photo 3"></div>
+      <div class="mySlides"><img src="4.png" alt="photo 4"></div>
+      <div class="mySlides"><img src="5.png" alt="photo 5"></div>
+      <div class="mySlides"><img src="6.png" alt="photo 6"></div>
+      <div class="mySlides"><img src="7.png" alt="photo 7"></div>
+      <div class="mySlides"><img src="8.png" alt="photo 8"></div>
+      <div class="mySlides"><img src="9.png" alt="photo 9"></div>
+      <div class="mySlides"><img src="10.png" alt="photo 10"></div>
+      <div class="mySlides"><img src="11.png" alt="photo 11"></div>
+      <div class="mySlides"><img src="12.png" alt="photo 12"></div>
+      <div class="mySlides"><img src="13.png" alt="photo 13"></div>
+      <div class="mySlides"><img src="14.png" alt="photo 14"></div>
+    </div>
+  </div>
+
+  <script>
+    // --- Countdown to Oct 23, 2025 18:40 UK (17:40 UTC) ---
+    const target = new Date(Date.UTC(2025, 9, 23, 17, 40, 0));
+    function updateCountdown(){
+      const now = new Date();
+      const diff = target - now;
+      if(diff <= 0){
+        document.getElementById('countdown').textContent = "You’re finally together 💕";
+        return;
+      }
+      const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const m = Math.floor((diff / (1000 * 60)) % 60);
+      const s = Math.floor((diff / 1000) % 60);
+      document.getElementById('countdown').innerHTML =
+        `<div>${d}<br>Days</div><div>${h}<br>Hours</div><div>${m}<br>Minutes</div><div>${s}<br>Seconds</div>`;
+    }
+    setInterval(updateCountdown,1000); updateCountdown();
+
+    // --- Local times ---
+    function updateTimes() {
+      const now = new Date();
+      document.getElementById('ukTime').textContent =
+        'UK Time: ' + now.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit',second:'2-digit',timeZone:'Europe/London'});
+      document.getElementById('dubaiTime').textContent =
+        'Dubai Time: ' + now.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit',second:'2-digit',timeZone:'Asia/Dubai'});
+    }
+    setInterval(updateTimes,1000); updateTimes();
+
+    // --- Rotating poem lines ---
+    const poems = [
+      `I stopped counting days; I’m counting heartbeats until yours matches mine again.`,
+      `Every sunrise brings you closer to me. Every sunset reminds me how much I miss you.`,
+      `Even from miles away, you are the calm in my storm and the warmth in my heart.`,
+      `I can’t wait for the day your hand finds mine again.`,
+      `Every second without you is one closer to being in your arms.`,
+      `No distance can dull the glow you left inside me.`,
+      `I dream of your laugh, your touch, your warmth — and soon, I won’t have to dream.`,
+      `You are my home, no matter how far away you are.`,
+      `Every heartbeat whispers your name.`,
+      `Your love fills the spaces where silence once lived.`,
+      `Each moment apart reminds me how deeply I love you.`,
+      `I count the stars and imagine one for every kiss I owe you.`,
+      `Distance means nothing when someone means everything.`,
+      `I miss you in every heartbeat, but I love you in every breath.`,
+      `One day soon, I’ll hold you again — and time will stop just to let us breathe.`,
+      `The nights are long, but your love lights even the darkest hour.`,
+      `When I close my eyes, I see you smiling, and the world feels right again.`,
+      `If love could bend time, I’d already be beside you.`,
+      `Every message, every memory, is a little piece of you keeping me warm.`,
+      `I’m not waiting — I’m loving you from afar until I can love you up close.`,
+      `The distance is temporary, but my love for you is forever.`,
+      `You’re my favorite daydream and my sweetest reality waiting to happen.`,
+      `Miles apart, hearts aligned — counting down to our forever.`,
+      `No matter how far apart, we share the same moon, and that’s enough for now.`,
+      `Every day without you reminds me why I chose you — and why I always will.`,
+      `If I could bottle your laugh, I’d sip it every time I miss you.`,
+      `You are my favorite kind of forever.`,
+      `Love stretches across oceans and still finds its way home.`,
+      `Your name is the softest thought in my heart’s every whisper.`,
+      `When I think of you, distance disappears.`
+    ];
+    const poemEl = document.getElementById('poem');
+    let poemIndex = 0;
+    function showPoem(){
+      poemEl.classList.remove('visible');
+      setTimeout(() => {
+        poemEl.innerHTML = poems[poemIndex];
+        poemEl.classList.add('visible');
+      }, 400);
+      poemIndex = (poemIndex + 1) % poems.length;
+    }
+    showPoem();
+    setInterval(showPoem, 10000);
+
+    // --- ✈️ Plane progress bar (Oct 5 start -> Oct 23 arrival) ---
+    const startDate = new Date('2025-10-05T00:00:00Z'); // Sneha left
+    const targetDate = new Date('2025-10-23T17:40:00Z'); // Sneha returns (UK 18:40)
+    let lastMilestone = Math.floor((Math.min(Math.max((new Date()-startDate)/(targetDate-startDate),0),1))*10)*10; // for sparkle tracking
+
+    function sparkleAtPlane(){
+      const plane = document.getElementById('plane');
+      const track = document.getElementById('track');
+      // burst particles
+      for(let i=0;i<6;i++){
+        const sp = document.createElement('div');
+        sp.className = 'sparkle-burst';
+        sp.style.left = (plane.offsetLeft + 10 + (Math.random()*16-8)) + 'px';
+        sp.style.top = (plane.offsetTop + 6 + (Math.random()*10-5)) + 'px';
+        track.appendChild(sp);
+        setTimeout(()=>sp.remove(), 800);
+      }
+      // bar shimmer for ~2s (looping 1s sweep)
+      track.classList.add('shimmering');
+      setTimeout(()=> track.classList.remove('shimmering'), 2000);
+    }
+
+    function updateProgressBar() {
+      const progressFill = document.getElementById('progress-fill');
+      const plane = document.getElementById('plane');
+      const progressText = document.getElementById('progress-text');
+      const now = new Date();
+      const total = targetDate - startDate;
+      const elapsed = now - startDate;
+      let p = Math.min(Math.max(elapsed / total, 0), 1) * 100;
+      progressFill.style.width = p + '%';
+      plane.style.left = `calc(${p}% - 12px)`;
+      const pct = p.toFixed(1);
+      progressText.textContent = pct + '% complete';
+
+      // milestone sparkle (10% steps), triggers whenever crossing
+      const currentMilestone = Math.floor(p / 10) * 10;
+      if (currentMilestone > lastMilestone) {
+        sparkleAtPlane();
+        lastMilestone = currentMilestone;
+      }
+    }
+    setInterval(updateProgressBar, 1000); updateProgressBar();
+
+    // --- 💞 Days together counter (from 19 July 2025) ---
+    const togetherStart = new Date('2025-07-19T00:00:00Z');
+    function updateDaysTogether(){
+      const now = new Date();
+      const diffDays = Math.floor((now - togetherStart) / (1000*60*60*24));
+      document.getElementById('daysTogether').textContent = `We’ve shared ${diffDays.toLocaleString()} beautiful days together 💖`;
+    }
+    setInterval(updateDaysTogether, 60*1000); updateDaysTogether();
+
+    // --- Slideshow ---
+    let slideIndex = 0;
+    function showSlides(){
+      const slides = document.getElementsByClassName('mySlides');
+      for(let i=0;i<slides.length;i++) slides[i].style.display='none';
+      slideIndex++; if(slideIndex>slides.length){slideIndex=1}
+      slides[slideIndex-1].style.display='block';
+      setTimeout(showSlides,6000);
+    }
+    showSlides();
+
+    // --- Floating hearts ---
+    function createFloatingHeart(){
+      const heart=document.createElement('div');
+      heart.classList.add('floating-heart');
+      heart.textContent=Math.random()>0.5?'❤':'💖';
+      heart.style.left=Math.random()*100+'vw';
+      heart.style.fontSize=(16+Math.random()*24)+'px';
+      heart.style.animationDuration=(5+Math.random()*5)+'s';
+      document.body.appendChild(heart);
+      setTimeout(()=>heart.remove(),10000);
+    }
+    setInterval(createFloatingHeart,200);
+
+    // --- 🌌 Night mode (Dubai local time) with starfield + shooting stars ---
+    const starfield = document.getElementById('starfield');
+    let starsBuilt = false;
+
+    function buildStars(count=200){
+      if (starsBuilt) return;
+      const frag = document.createDocumentFragment();
+      for (let i=0;i<count;i++){
+        const s = document.createElement('div');
+        s.className = 'star';
+        const size = Math.random() * 2.2 + 0.6;
+        s.style.width = size + 'px';
+        s.style.height = size + 'px';
+        s.style.left = (Math.random()*100) + 'vw';
+        s.style.top = (Math.random()*100) + 'vh';
+        s.style.animationDuration = (2.5 + Math.random()*4.5) + 's';
+        s.style.animationDelay = (Math.random()*5) + 's';
+        frag.appendChild(s);
+      }
+      starfield.appendChild(frag);
+      starsBuilt = true;
+    }
+
+    function dubaiNow(){
+      const str = new Date().toLocaleString('en-GB', { timeZone: 'Asia/Dubai' });
+      return new Date(str);
+    }
+
+    function applyTheme(){
+      const dn = dubaiNow();
+      const h = dn.getHours();
+      const isNight = (h >= 17) || (h < 6); // Night: 17:00 -> 06:00
+      if (isNight){
+        document.body.classList.add('night');
+        document.body.style.background = `linear-gradient(180deg, var(--night-bg-1), var(--night-bg-2))`;
+        buildStars();
+      } else {
+        document.body.classList.remove('night');
+        document.body.style.background = `var(--bg-day)`;
+      }
+    }
+    applyTheme();
+    setInterval(applyTheme, 60 * 1000);
+
+    // --- 🌠 Shooting stars every 30s at night (two styles) ---
+    function createShootingStar(){
+      if (!document.body.classList.contains('night')) return; // night-only
+      const star = document.createElement('div');
+      const big = Math.random() < 0.5 ? true : false;
+      star.className = 'shooting-star' + (big ? '' : ' small');
+
+      // Random starting position anywhere in viewport
+      const startX = Math.random() * window.innerWidth;
+      const startY = Math.random() * window.innerHeight;
+      star.style.left = startX + 'px';
+      star.style.top = startY + 'px';
+
+      // Random angle between 25 and 70 degrees, random direction
+      const angle = (25 + Math.random()*45) * (Math.random() < 0.5 ? 1 : -1);
+      star.style.setProperty('--angle', angle + 'deg');
+
+      // Random travel distance
+      const dist = big ? 520 : 360;
+      const radians = angle * Math.PI / 180;
+      const dx = Math.cos(radians) * dist;
+      const dy = Math.sin(radians) * dist;
+      star.style.setProperty('--dx', dx + 'px');
+      star.style.setProperty('--dy', dy + 'px');
+
+      document.body.appendChild(star);
+      setTimeout(()=> star.remove(), big ? 2600 : 1800);
+    }
+    // spawn every 30s
+    setInterval(createShootingStar, 30000);
+
+  
+    // --- 💌 Love letter open/close ---
+    (function(){
+      const btn = document.getElementById('loveBtn');
+      const overlay = document.getElementById('loveOverlay');
+      const closeBtn = document.getElementById('closeLove');
+
+      const open = () => {
+        overlay.classList.add('open');
+        overlay.setAttribute('aria-hidden','false');
+      };
+      const close = () => {
+        overlay.classList.remove('open');
+        overlay.setAttribute('aria-hidden','true');
+      };
+
+      if (btn) btn.addEventListener('click', open);
+      if (closeBtn) closeBtn.addEventListener('click', close);
+      if (overlay) overlay.addEventListener('click', (e)=>{ if(e.target === overlay) close(); });
+
+      // Escape to close
+      document.addEventListener('keydown', (e)=>{ if(e.key==='Escape' && overlay.classList.contains('open')) close(); });
+    })();
+</script>
+<script>
+/* --- Night mode fix: Use Dubai local time regardless of viewer timezone --- */
+(function(){
+  function dubaiNow(){
+    // Format a Dubai-time timestamp and build a Date from it; cross-browser safe
+    const fmt = new Intl.DateTimeFormat('en-GB', {
+      timeZone: 'Asia/Dubai',
+      year: 'numeric', month: '2-digit', day: '2-digit',
+      hour: '2-digit', minute: '2-digit', second: '2-digit',
+      hour12: false
+    });
+    const parts = fmt.formatToParts(new Date());
+    function g(type){ return parts.find(p => p.type===type).value; }
+    // Build ISO-like string to avoid locale ambiguity
+    const iso = `${g('year')}-${g('month')}-${g('day')}T${g('hour')}:${g('minute')}:${g('second')}`;
+    return new Date(iso.replace(' ', 'T'));
+  }
+
+  function applyDubaiTheme(){
+    const h = dubaiNow().getHours();
+    const isNight = (h >= 17) || (h < 6); // 17:00 -> 06:00 Dubai
+    const body = document.body;
+    if (isNight){
+      if (!body.classList.contains('night')) body.classList.add('night');
+    } else {
+      if (body.classList.contains('night')) body.classList.remove('night');
+    }
+  }
+
+  // Run now and on interval
+  applyDubaiTheme();
+  setInterval(applyDubaiTheme, 30*1000);
+})();
+/* --- End night mode fix --- */
+
+/* --- Shooting stars every 30s at night (pink trail) --- */
+(function(){
+  function createPinkShootingStar(){
+    if (!document.body.classList.contains('night')) return;
+    const star = document.createElement('div');
+    const big = Math.random() < 0.5;
+    star.className = 'shooting-star-pinkfix' + (big ? '' : ' small');
+
+    // Random start anywhere in viewport
+    const startX = Math.random() * window.innerWidth;
+    const startY = Math.random() * window.innerHeight;
+    star.style.left = startX + 'px';
+    star.style.top = startY + 'px';
+
+    // Random angle between 25 and 70 degrees, random left/right
+    const angle = (25 + Math.random()*45) * (Math.random() < 0.5 ? 1 : -1);
+    star.style.setProperty('--angle', angle + 'deg');
+
+    // Travel distance
+    const dist = big ? 540 : 360;
+    const rad = angle * Math.PI / 180;
+    star.style.setProperty('--dx', Math.cos(rad) * dist + 'px');
+    star.style.setProperty('--dy', Math.sin(rad) * dist + 'px');
+
+    document.body.appendChild(star);
+    setTimeout(() => star.remove(), big ? 2400 : 1800);
+  }
+
+  // Spawn every 30s (independent of any existing star timers)
+  setInterval(createPinkShootingStar, 30*1000);
+  // Optional: spawn one shortly after page load if it's already night
+  setTimeout(createPinkShootingStar, 2000);
+})();
+/* --- End shooting star fix --- */
+
+</script></body>
+</html>
